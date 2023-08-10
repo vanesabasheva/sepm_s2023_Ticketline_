@@ -1,0 +1,208 @@
+<div *ngIf="orderPage; else loading" class="my-3">
+  <div class="card my-3">
+    <div class="card-header">
+      <h2>Order Details</h2>
+    </div>
+    <div class="card-body">
+      <p *ngIf="orderPage.cancelled">
+        <strong>Cancelled!</strong>
+      </p>
+      <p>
+        <strong>Order Time:</strong>
+        {{ orderPage.orderTs | date : 'dd.MM.yyyy HH:mm' }}
+      </p>
+      <p><strong>Delivery Address:</strong></p>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <strong>Postal Code:</strong> {{ orderPage.location.postalCode }}
+        </li>
+        <li class="list-group-item">
+          <strong>Street:</strong> {{ orderPage.location.street }}
+        </li>
+        <li class="list-group-item">
+          <strong>City:</strong> {{ orderPage.location.city }}
+        </li>
+        <li class="list-group-item">
+          <strong>Country:</strong> {{ orderPage.location.country }}
+        </li>
+      </ul>
+      <div class="card p-3" style="margin-top: 1rem">
+        <p><strong>Payment Detail:</strong></p>
+
+        •••• - •••• - •••• - {{ orderPage.paymentDetail.lastFourDigits }}
+      </div>
+    </div>
+  </div>
+
+  <div class="card my-3" *ngIf="orderPage.tickets.length > 0">
+    <div class="card-header">
+      <h2>Tickets</h2>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Price</th>
+            <th>Number</th>
+            <th>Row</th>
+            <th>Sector Name</th>
+            <th>Event Name</th>
+            <th>Hall Name</th>
+            <th>Performance Start</th>
+            <th>Artist Names</th>
+            <th>Cancel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of orderPage.tickets">
+            <td>{{ ticket.price }}</td>
+            <ng-container *ngIf="!ticket.standing; else standing">
+              <td>{{ ticket.number }}</td>
+              <td>{{ ticket.row }}</td>
+            </ng-container>
+            <ng-template #standing>
+              <td></td>
+              <td></td>
+            </ng-template>
+            <td>{{ ticket.sectorName }}</td>
+            <td>{{ ticket.eventName }}</td>
+            <td>{{ ticket.hallName }}</td>
+            <td>{{ ticket.performanceStart | date : 'dd.MM.yyyy HH:mm' }}</td>
+            <td>
+              <ul class="list-group">
+                <li
+                  class="list-group-item"
+                  *ngFor="let artist of ticket.artistNames"
+                >
+                  {{ artist }}
+                </li>
+              </ul>
+            </td>
+            <td>
+              <!-- button for toggle to cancel selection -->
+              <button
+                class="btn btn-danger"
+                (click)="toggleTicket(ticket)"
+                style="width: 7rem"
+                [ngClass]="{ 'greyed-out': isTicketSelected(ticket) }"
+              >
+                <ng-container *ngIf="!isTicketSelected(ticket); else cancelled">
+                  Select
+                </ng-container>
+                <ng-template #cancelled> Unselect </ng-template>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card my-3" *ngIf="orderPage.merchandise.length > 0">
+    <div class="card-header">
+      <h2>Merchandise</h2>
+    </div>
+    <div class="card-body">
+      <ul style="margin: 0; padding: 0">
+        <div *ngFor="let item of orderPage.merchandise" class="d-flex my-3">
+          <div class="card p-3 flex-grow-1">
+            <h5>
+              <strong>{{ item.title }}</strong>
+            </h5>
+            <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+            <p>
+              <ng-container *ngIf="!item.points; else points">
+                <strong>Amount spent:</strong> {{ item.price * item.quantity }}
+              </ng-container>
+              <ng-template #points>
+                <strong>Points spent:</strong>
+                {{ item.pointsPrice * item.quantity }}
+              </ng-template>
+            </p>
+          </div>
+          <button
+            class="btn btn-danger"
+            (click)="toggleMerchandise(item)"
+            style="width: 7rem"
+            [ngClass]="{ 'greyed-out': isMerchandiseSelected(item) }"
+          >
+            <ng-container *ngIf="!isMerchandiseSelected(item); else cancelled">
+              Select
+            </ng-container>
+            <ng-template #cancelled> Unselect </ng-template>
+          </button>
+        </div>
+      </ul>
+    </div>
+  </div>
+  <div class="card my-3">
+    <div class="card-header">
+      <h2>Transactions</h2>
+    </div>
+    <div class="card-body">
+      <p>
+        <strong>Total amount {{ deductedReceived(totalAmount()) }}:</strong>
+        {{ abs(totalAmount()) }}
+      </p>
+      <p>
+        <strong>Total points {{ deductedReceived(-totalPoints()) }}:</strong>
+        {{ abs(totalPoints()) }}
+      </p>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let transaction of orderPage.transactions; let i = index"
+        >
+          <h5>
+            <strong>Transaction {{ i + 1 }}</strong>
+            {{ transaction.timestamp }}
+          </h5>
+          <p>
+            <strong
+              >Amount
+              {{ deductedReceived(transaction.deductedAmount) }}:</strong
+            >
+            {{ abs(transaction.deductedAmount) }}
+          </p>
+          <p>
+            <strong
+              >Points
+              {{ deductedReceived(-transaction.deductedPoints) }}:</strong
+            >
+            {{ abs(transaction.deductedPoints) }}
+          </p>
+          <button
+            class="btn btn-primary"
+            (click)="printReceipt(transaction.id)"
+          >
+            Print receipt
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- button for cancel order -->
+  <div *ngIf="!orderPage.cancelled">
+    <button
+      *ngIf="!areItemsSelected(); else cancelItems"
+      class="btn btn-danger p-5"
+      (click)="cancelOrder()"
+      style="display: block; margin-left: auto; width: 20rem"
+    >
+      Cancel Order
+    </button>
+    <ng-template #cancelItems>
+      <button
+        class="btn btn-danger p-5"
+        (click)="cancelSelected()"
+        style="display: block; margin-left: auto; width: 20rem"
+      >
+        Cancel Items
+      </button>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #loading>
+  <h2 class="my-3">loading...</h2>
+</ng-template>

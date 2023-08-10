@@ -1,0 +1,175 @@
+<div *ngIf=" getNews().length === 0" class="">
+  <p>Zero unread news</p>
+</div>
+
+
+<div class="mt-4 container">
+  <!-- Carousel-->
+  <div class="mt-4 container">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button *ngFor="let item of carouselItems; let i = index" type="button"
+                [attr.data-bs-target]="'#carouselExampleCaptions'" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
+                [attr.aria-label]="'Slide ' + (i+1)"></button>
+      </div>
+      <div class="carousel-inner">
+        <ng-container *ngFor="let item of carouselItems; let i = index">
+          <div class="carousel-item" [class.active]="i === 0">
+            <div class="carousel-image-container" type="button" routerLink="/news/{{item.id}}">
+              <img src="http://localhost:8080/images/{{ item.imagePath }}" alt="{{ item.title }} image ">
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+              <h5>{{ item.title }}</h5>
+
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+
+  <div class="row p-2 mb-4">
+    <button *ngIf="isAdmin()" type="button" class="btn btn-secondary btn-sm mr-4" (click)="openAddModal(newsAddModal)">
+      Add News
+    </button>
+
+    <ng-template #newsAddModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">News</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss('X')" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-picture-size">
+          <div class="modal-pciture-container">
+            <img *ngIf="selectedFile!==null" [src]="imagePreview" alt="Selected Image"/>
+          </div>
+        </div>
+
+        <form (ngSubmit)="addNews(newsForm)" #newsForm="ngForm">
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Select news image</label>
+            <input class="form-control form-control-lg" type="file" id="formFile"
+                   (change)="onFileSelected($event)">
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="text" name="title" class="form-control" id="inputTitle" required minlength="1" maxlength="100"
+                   aria-describedby="titleHelp" placeholder="Enter title" [(ngModel)]="currentNews.title"
+                   [readOnly]="currentNews.id">
+            <label for="inputTitle">Title</label>
+            <div *ngIf="submitted && newsForm.controls.title.errors" class="error">
+              <small class="form-text text-warning" *ngIf="newsForm.controls.title.errors.required">Title is required!
+                (max 100 characters)
+              </small>
+              <small class="form-text text-warning" *ngIf="newsForm.controls.title.errors.maxlength">Title exceeds 100
+                characters!
+              </small>
+            </div>
+
+          </div>
+          <div class="form-floating mb-3">
+            <textarea rows="3" name="summary" class="form-control" id="inputSummary" required minlength="1"
+                      maxlength="500"
+                      aria-describedby="summaryHelp" placeholder="Enter summary" [(ngModel)]="currentNews.summary"
+                      [readOnly]="currentNews.id"></textarea>
+            <label for="inputSummary">Summary</label>
+            <div *ngIf="submitted && newsForm.controls.summary.errors" class="error">
+              <small class="form-text text-warning" *ngIf="newsForm.controls.summary.errors.required">
+                Summary is
+                required! (max 1000 characters)
+              </small>
+              <small class="form-text text-warning" *ngIf="newsForm.controls.summary.errors.maxlength">Summary exceeds
+                500 characters!
+              </small>
+            </div>
+
+          </div>
+          <div class="form-floating mb-3">
+            <textarea rows="6" name="content" class="form-control" id="inputText" required minlength="1"
+                      aria-describedby="textHelp" placeholder="Enter text" [(ngModel)]="currentNews.content"
+                      [readOnly]="currentNews.id"></textarea>
+            <label for="inputText">Text</label>
+            <div *ngIf="submitted && newsForm.controls.content.errors" class="error">
+              <small class="form-text text-warning" *ngIf="newsForm.controls.content.errors.required">Content is
+                required!
+              </small>
+            </div>
+          </div>
+
+          <div [formGroup]="searchForm">
+            <mat-form-field class="search-form-field">
+              <input type="text"
+                     placeholder="Pick an event"
+                     aria-label="State"
+                     matInput
+                     [matAutocomplete]="auto"
+                     formControlName="searchBar"
+                     (input)="onChanges()"
+              >
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let event of events" [value]="event.name">
+                  <span> {{event.name}} </span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" (click)="addNews(newsForm)" id="add-news" class="btn btn-success float-start"
+                *ngIf="!currentNews.id">Add News
+        </button>
+        <button type="button" class="btn btn-danger" id="close-modal-btn" (click)="modal.dismiss('close')">Close
+        </button>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="row">
+    <div class="d-flex justify-content-end">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="showOldNews"
+               (ngModelChange)="loadNews()">
+        <label class="form-check-label" for="flexSwitchCheckDefault">see old news</label>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-3 col-lg-4 p-2 " *ngFor="let news of getNews()">
+      <div class="w-auto p-2">
+        <div class="">
+          <div class="pe-2">
+            <img class="img-fluid" src="http://localhost:8080/images/{{ news.imagePath }}" alt="Article image">
+          </div>
+          <div class="">
+            <p class="text-muted fw-light text-break">{{news.publicationDate | date: 'mediumDate'}}</p>
+            <h5 class="fw-bold text-break">{{news.title}}</h5>
+            <p class=" fs-6 lh-sm fw-light text-muted text-break">{{news.summary}}</p>
+            <a routerLink="/news/{{news.id}}" class=" text-muted align-self-center d-flex justify-content-center">Read
+              More</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

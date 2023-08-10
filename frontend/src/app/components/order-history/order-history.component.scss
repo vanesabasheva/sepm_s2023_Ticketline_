@@ -1,0 +1,159 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+.ticket-container {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+.ticket-header {
+  background-color: #ce5a57;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ticket-row {
+  background-color: #f9f9f9;
+  height: 80px; /* Adjust the value to increase or decrease row height */
+  border-radius: 8px;
+  text-align: center;
+}
+
+.ticket-row td {
+  padding: 10px;
+}
+
+.ticket-row:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.order-box {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-details table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+}
+
+.order-details td {
+  padding: 10px;
+  // border-bottom: 1px solid #ddd;
+}
+
+.order-details td:last-child {
+  border-bottom: none;
+}
+
+.order-details td strong {
+  display: inline-block;
+  width: 120px;
+}
+
+.order-details .action-cell {
+  width: 150px;
+  text-align: right;
+}
+
+.order-header {
+  background-color: #d3d3d3;
+  // text-align: justify;
+  display: flex;
+}
+
+.order-body {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-header-data {
+  display: inline-block;
+  padding: 0.75rem;
+}
+
+.order-header-data2 {
+  display: inline-block;
+  align-self: center;
+}
+
+.order-header-btn {
+  display: inline-block;
+  padding: 0.75rem;
+  padding-right: 1rem;
+}
+
+#button-tickets {
+  background-color: #3f9bd1;
+  border: 1px solid #3f9bd1;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+#button-tickets-detail {
+  background-color: #169e18;
+  border: 1px solid #169e18;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+#button-tickets:hover {opacity: 1}
+
+#button-tickets-detail:hover {opacity: 1}
+
+.card {
+  display: inline-block;
+  width: 100%;
+  border: 1px solid #ddd;
+  background-color: #ececec;
+}
+
+.ticket-detail-more {
+  display: inline-block;
+  padding-left: 0.75rem;
+  width: 100%;
+}
+
+.ticket-detail-more-1 {
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+}
+
+.ticket-detail-more-2 {
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+
+}
+
+#cancelled {
+  color: red;
+}
+
+#points-used {
+  color: red;
+}
+
+#points-used-refund{
+  color: #cf7200;
+}
+
+#points-received {
+  color: green;
+}
+
+

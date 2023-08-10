@@ -1,0 +1,181 @@
+<br>
+<h1>Your Cart</h1>
+
+<section class="container">
+  <h1>Your Cart</h1>
+  <div *ngIf="cartTickets.length > 0">
+    <p>
+      You have ({{ cartTickets.length + cartMerch.length }}) items in your cart.
+    </p>
+  </div>
+  <div class="ticket-container">
+    <div *ngIf="cartTickets.length === 0 && cartMerch.length === 0">
+      <h5 class="cart-empty">Your Cart is Empty</h5>
+    </div>
+    <div class="row">
+      <article class="card fl-left">
+        <section class="date">
+          <time datetime="23th feb">
+            <span>23</span><span>feb</span>
+          </time>
+        </section>
+        <section class="card-cont">
+          <small>dj khaled</small>
+          <h3>live in sydney</h3>
+          <div class="even-date">
+            <i class="fa fa-calendar"></i>
+            <time>
+              <span>wednesday 28 december 2014</span>
+              <span>08:55pm to 12:00 am</span>
+            </time>
+          </div>
+          <div class="even-info">
+            <i class="fa fa-map-marker"></i>
+            <p>
+              nexen square for people australia, sydney
+            </p>
+          </div>
+          <a href="#">tickets</a>
+        </section>
+      </article>
+    </div>
+    <div class="row">
+    </div>
+  </div>
+</section>
+
+
+<div *ngIf="cartTickets.length > 0">
+  <p>
+    You have ({{ cartTickets.length + cartMerch.length }}) items in your cart.
+  </p>
+</div>
+<div class="ticket-container">
+  <div *ngIf="cartTickets.length === 0 && cartMerch.length === 0">
+    <h5 class="cart-empty">Your Cart is Empty</h5>
+  </div>
+
+  <table *ngIf="cartTickets.length !== 0" class="table ticket-table">
+    <thead>
+    <tr class="ticket-header">
+      <th>Event</th>
+      <th>Seat</th>
+      <th>Sector</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>Reservation</th>
+      <th>Price</th>
+      <!-- Added checkbox column -->
+      <th class="min-width">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let cartTicket of cartTickets" class="ticket-row">
+      <td>{{ cartTicket.eventName }}</td>
+      <td>{{ seatToString(cartTicket) }}</td>
+      <td>{{ cartTicket.sectorName }}</td>
+      <td>{{ dateToLocaleDate(cartTicket) }}</td>
+      <td>{{ locationToString(cartTicket) }}</td>
+      <td>
+        <input [(ngModel)]="cartTicket.reservation" type="checkbox"/>
+      </td>
+      <td>{{ cartTicket.price }} €</td>
+      <td>
+        <div class="btn-group">
+          <a
+            (click)="removeTicket(cartTicket.id)"
+            aria-label="Remove Ticket"
+            class="btn btn-danger"
+            style="font-size: 12px"
+          >
+            <i class="bi-trash"></i>
+            Remove
+          </a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+    <br/>
+  </table>
+
+  <div *ngFor="let merch of cartMerch"></div>
+
+  <table *ngIf="cartMerch.length !== 0" class="table ticket-table">
+    <thead>
+    <tr class="ticket-header">
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price/Quantity</th>
+      <th>Price</th>
+      <th>Points</th>
+      <th>Buy with Points</th>
+      <th class="min-width">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let merch of cartMerch" class="ticket-row">
+      <td>{{ merch.title }}</td>
+      <td>{{ merch.quantity }}</td>
+      <td>{{ merch.price }} €</td>
+      <td>{{ totalPrice(merch.price, merch.quantity) }} €</td>
+      <td>{{ totalPoints(merch.pointsPrice, merch.quantity) }}</td>
+      <td>
+        <input
+          [(ngModel)]="merch.buyWithPoints"
+          type="checkbox"
+          id="checkboxMerch"
+          (click)="
+              handleCheckboxClickMerch(
+                totalPoints(merch.pointsPrice, merch.quantity),
+                $any($event.target)
+              )
+            "
+        />
+      </td>
+
+      <td>
+        <div class="btn-group">
+          <a
+            (click)="removeMerch(merch.id)"
+            aria-label="Remove Merch"
+            class="btn btn-danger"
+            style="font-size: 12px"
+          >
+            <i class="bi-trash"></i>
+            Remove
+          </a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+    <br/>
+  </table>
+
+  <div class="price-container">
+    <p id="points" class="points">Available Points: {{ cart.userPoints }}</p>
+    <p id="usedPoints" class="points">Used Points: {{ pointsUsed() }}</p>
+    <p id="price" class="points">Total Price: {{ overallPrice() }} €</p>
+  </div>
+  <p id="receivedPoints" class="points-received">
+    You receive
+    <span class="bold-text">{{ receivedPoints() }} Points </span> for this
+    Order!
+  </p>
+
+  <div
+    *ngIf="cartTickets.length !== 0 || cartMerch.length !== 0"
+    class="button-container"
+  >
+    <div class="btn-group">
+      <a
+        (click)="checkoutPointsValidation(pointsUsed())"
+        aria-label="checkout"
+        class="btn btn-outline-danger btn-lg"
+      >
+        <i class="bi bi-cart-check"></i>
+        Checkout
+      </a>
+    </div>
+  </div>
+</div>
+

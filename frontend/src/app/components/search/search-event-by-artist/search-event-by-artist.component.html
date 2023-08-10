@@ -1,0 +1,60 @@
+<div class="text-container">
+  <div class="row justify-content-center align-items-center text-container">
+    <div class="col-10 text-center">
+      <p><span class="search-text"> S E A R C H </span></p>
+      <p><span class="by-artist"> by artist</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-6 search-form-container">
+    <form class="example-form" [formGroup]="searchForm">
+      <mat-form-field class="search-form-field">
+        <input type="text"
+               placeholder="Pick an artist"
+               aria-label="State"
+               matInput
+               [matAutocomplete]="auto"
+               formControlName="searchBar"
+               (input)="onChanges()"
+               (click)="searchArtists()"
+        >
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let artist of artists" [value]="artist.name">
+            <span> {{artist.name}} </span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="row">
+        <button mat-button (click)="searchEvents()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+<div class="event-container">
+  <div class="event-card" *ngFor="let event of events" (click)="redirectToEvent(event.id)">
+    <div class="row ">
+      <div class="col-1" style="height: 15rem; width: 15rem; object-fit: cover">
+        <img class="rounded float-left img-fluid img-thumbnail border h-75 w-100"
+             src="http://localhost:8080/images/{{ event.imagePath }}"
+             alt="{{ event.name }} image ">
+      </div>
+      <div class="col-6">
+        <div class="p-3 fw-bold fs-5">{{ event.name }}</div>
+        <div class="fst-italic text-muted">
+          <div>Type: {{ event.type }}</div>
+          <div>Duration: {{ formatLength(event) }}</div>
+          <div>Description: {{ event.description }}</div>
+          <div> {{ event.artists }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="events.length === 0 && searchPerformed" class="no-events">No events found.</div>
+</div>
+
+

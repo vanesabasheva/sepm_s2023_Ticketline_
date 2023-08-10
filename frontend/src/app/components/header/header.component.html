@@ -1,0 +1,153 @@
+<nav
+  class="navbar sticky-top navbar-expand-lg navbar-light"
+  style="background-color: white; box-shadow: 0 2px 1px -1px rgb(0, 0, 0, 0.2)"
+>
+  <a class="navbar-brand mb-0 mx-4 h2" style="color: #b7231f" href="#">
+    <span class="h3">TicketLine</span>
+    <i
+      class="mb-0 mx-2 bi-ticket-detailed-fill"
+      style="font-size: xx-large"
+    ></i>
+  </a>
+  <button
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    class="navbar-toggler ml-5"
+    data-target="#navbarSupportedContent"
+    data-toggle="collapse"
+    type="button"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav my-2" style="margin-left: auto">
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn() && (authService.getUserRole() === 'ADMIN')" routerLink="/admin"
+        ><strong><i class="bi-person-bounding-box"></i> Admin</strong></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn()"
+          ><i class="bi bi-stop-circle-fill" style="font-size: 1rem"></i>
+          Points: {{ getPoints() }}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="authService.isLoggedIn()" routerLink="/cart">
+          <i class="bi bi-cart-fill"> </i>
+          Cart
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          *ngIf="authService.isLoggedIn()"
+          routerLink="/profile"
+          class="nav-link"
+          style="margin-left: auto"
+          >Profile</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          *ngIf="!authService.isLoggedIn()"
+          class="nav-link"
+          routerLink="/login"
+          routerLinkActive="active"
+          style="margin-left: auto"
+          >Login</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          *ngIf="authService.isLoggedIn()"
+          routerLink="/"
+          (click)="authService.logoutUser()"
+          class="nav-link"
+          style="margin-left: auto"
+          >Logout</a
+        >
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<nav
+  class="navbar navbar-light navbar-expand-lg"
+  style="background-color: rgba(206, 90, 87, 0.93)"
+>
+  <div class="container-fluid">
+    <div
+      class="collapse navbar-collapse justify-content-center h6"
+      id="navbarSupportContent"
+    >
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/news"
+            routerLinkActive="active"
+            >News</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/top-ten"
+            routerLinkActive="active"
+            >Top Events</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/search/events"
+            >Events</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/search/artists"
+            >Artists</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/search/locations"
+            >Location</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/search/performances"
+          >Performances</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            *ngIf="authService.isLoggedIn()"
+            class="nav-link"
+            style="color: #ffffff"
+            routerLink="/merchandise"
+            >Merchandise</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

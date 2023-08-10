@@ -1,0 +1,50 @@
+<div>
+  <h1>Edit Personal Profile</h1>
+</div>
+
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-lg-4">
+      <img src="http://localhost:8080/images/profile.jpg" alt="Profile Picture" width="250" height="250">
+    </div>
+
+    <div class="col-lg-5">
+      <form #form="ngForm" class="was-validated">
+        <div class="mb-3">
+          <label class="form-label" for="firstName">First Name</label>
+          <input type="text" id="firstName" class="form-control" [(ngModel)]="user.firstName" name="firstName" required>
+          <div class="invalid-feedback">
+            <!-- This is shown, when the form validation deems the name input to be invalid -->
+            First Name is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="lastName">Last Name</label>
+          <input type="text" id="lastName" class="form-control" [(ngModel)]="user.lastName" name="lastName" required>
+          <div class="invalid-feedback">
+            Last Name is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="email">Email</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="user.email" name="email" required>
+          <div class="invalid-feedback">
+            Correct Email is required
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<button type="submit"
+        class="btn btn-primary"
+        [disabled]="!form.valid"
+        (click)="onSubmit(form)"
+>
+  Submit
+</button>
+<button *ngIf="!user.admin" type="button" class="btn btn-danger" (click)="deleteUserDialogDecision()"
+        style="margin-left: 10px"><i class="bi-trash"></i> Delete Profile
+</button>

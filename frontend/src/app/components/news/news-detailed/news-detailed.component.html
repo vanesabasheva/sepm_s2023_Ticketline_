@@ -1,0 +1,51 @@
+<div *ngIf="currentNews === null && error === false">
+  <p>loading...</p>
+</div>
+
+<div *ngIf="error === true">
+  <p>could not find news article...</p>
+</div>
+
+<div class="container-fluid" *ngIf="currentNews !== null">
+  <div class="d-flex justify-content-between">
+    <span class="d-flex align-items-end text-muted fw-light mb-0">{{
+      currentNews.publicationDate | date : 'mediumDate'
+    }}</span>
+
+    <div class="">
+      <h1 class="fw-bold text-center text-break">{{ currentNews.title }}</h1>
+    </div>
+    <div class="d-flex align-items-end">
+      <button
+        class="btn btn-danger"
+        routerLink="/events/{{ currentNews.eventId }}"
+      >
+        Tickets
+      </button>
+    </div>
+  </div>
+
+  <hr class="mt-1" />
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="pe-2">
+        <img
+          class="img-fluid"
+          src="http://localhost:8080/images/{{ currentNews.imagePath }}"
+          alt="Article image"
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <p class="text-start fw-light text-decoration-underline">Summary:</p>
+      <p class="fs-6 lh-sm fw-light text-muted text-break">
+        {{ currentNews.summary }}
+      </p>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <p class="text-center fs-6 fw-light text-decoration-underline">Detailed</p>
+    <p class="fs-6 lh-sm fw-light text-break">{{ currentNews.content }}</p>
+  </div>
+</div>

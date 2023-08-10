@@ -1,0 +1,25 @@
+<div *ngIf="performances.length !== 0">
+  <div class="event-card">
+    <img
+      alt="Card image cap"
+      class="card-img-top"
+      src="http://localhost:8080/images/duck.jpg"
+    />
+    <p>
+      <span class="event-title"> {{ performances[0].eventName }} </span>
+    </p>
+  </div>
+  <div class="performance-container">
+    <div *ngFor="let performance of performances" class="performance-item">
+      <h3>{{ performance.eventName }}</h3>
+      <p>Hall: {{ performance.hallName }}</p>
+      <p>Date & Time: {{ formatDateTime(performance) }}</p>
+      <p>Location: {{ formatLocation(performance) }}</p>
+      <mat-button-toggle
+        class="buy-tickets-button"
+        (click)="buyTickets(performance.id)"
+        >Buy Tickets</mat-button-toggle
+      >
+    </div>
+  </div>
+</div>

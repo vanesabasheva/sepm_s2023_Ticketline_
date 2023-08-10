@@ -1,0 +1,19 @@
+<div class="p-4">
+  <h1>Buy?</h1>
+  <div class="my-4 d-flex justify-content-between">
+    <button
+      class="btn btn-success"
+      style="width: 10rem"
+      (click)="buyEmitter.emit(true)"
+    >
+      Buy!
+    </button>
+    <button
+      class="btn btn-danger"
+      style="width: 10rem"
+      (click)="buyEmitter.emit(false)"
+    >
+      No.
+    </button>
+  </div>
+</div>

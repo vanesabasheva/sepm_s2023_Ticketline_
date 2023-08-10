@@ -1,0 +1,63 @@
+.greyed-out {
+  opacity: 0.6;
+  //pointer-events: none;
+}
+
+.ticket-container {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 20px;
+}
+
+.ticket-header {
+  background-color: #ce5a57;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ticket-row {
+  background-color: #f9f9f9;
+  height: 80px; /* Adjust the value to increase or decrease row height */
+  border-radius: 8px;
+  text-align: center;
+}
+
+.ticket-row td {
+  padding: 10px;
+}
+
+.ticket-row:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.ticket-row:last-child {
+  margin-bottom: 0;
+}
+
+.btn-group {
+  margin: auto;
+}
+.btn-outline-danger {
+  padding: 20px 30px;
+  font-size: 24px;
+}
+
+.button-container {
+  text-align: right;
+  padding-right: 50px;
+}
+
+.card-header {
+  background-color: #ce5a57;
+  color: #fff;
+}

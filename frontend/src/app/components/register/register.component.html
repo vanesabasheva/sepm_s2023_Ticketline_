@@ -1,0 +1,111 @@
+<br>
+<h1 *ngIf="isAdmin">Admin view for registering a new user</h1>
+<div class="pt-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <span class="anchor" id="formLogin"></span>
+
+      <div class="card rounded-0">
+        <div class="card-header">
+          <h3 class="mb-0" *ngIf="!isAdmin" >Sign Up</h3>
+          <h3 class="mb-0" *ngIf="isAdmin">Sign up a new user</h3>
+        </div>
+
+        <div class="card-body">
+          <form (ngSubmit)="createUser()" [formGroup]="registerForm" autocomplete="off" class="form">
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input [ngModel]="email" aria-describedby="emailHelp"
+                     autocomplete="off" class="form-control"
+                     email
+                     formControlName="email" id="email" name="email" placeholder="Enter E-mail" type="text">
+              <div *ngIf="submitted && registerForm.controls.email.errors" class="error">
+                <ul>
+                  <li *ngIf="registerForm.controls.email.errors.required" class="text-danger">
+                    Your E-mail is required!
+                  </li>
+                  <li *ngIf="registerForm.controls.email.errors.pattern" class="text-danger">
+                    Please enter correct Email!
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="firstName"> First Name</label>
+              <input aria-describedby="firstNameHelp" autocomplete="off" class="form-control"
+                     formControlName="firstName"
+                     id="firstName"
+                     name="firstName"
+                     placeholder="Enter First Name" type="text">
+              <div *ngIf="submitted && registerForm.controls.firstName.errors" class="error">
+                <ul>
+                  <li *ngIf="registerForm.controls.firstName.errors.required" class="text-danger">
+                    Your First Name is required!
+                  </li>
+                  <li *ngIf="registerForm.controls.firstName.errors.pattern" class="text-danger">
+                    Your First Name can only consist of letters!
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input aria-describedby="lastNameHelp" autocomplete="off" class="form-control"
+                     formControlName="lastName"
+                     id="lastName"
+                     name="lastName"
+                     placeholder="Enter Last Name" type="text">
+              <div *ngIf="submitted && registerForm.controls.lastName.errors" class="error">
+                <ul>
+                  <li *ngIf="registerForm.controls.lastName.errors.required" class="text-danger">
+                    Your Last Name is required!
+                  </li>
+                  <li *ngIf="registerForm.controls.lastName.errors.pattern" class="text-danger">
+                    Your Last Name can only consist of letters!
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input autocomplete="new-password" class="form-control" formControlName="password" id="password"
+                     name="password"
+                     placeholder="Password"
+                     type="password">
+              <div *ngIf="submitted && registerForm.controls.password.errors" class="error">
+                <ul>
+                  <li *ngIf="registerForm.controls.password.errors.required" class="text-danger">
+                    Your password is required!
+                  </li>
+                  <li *ngIf="registerForm.controls.password.errors.minlength" class="text-danger">
+                    Your password must be at least 8 characters long!
+                  </li>
+                  <li *ngIf="registerForm.controls.password.errors.pattern" class="text-danger">
+                    Your password must contain at least one uppercase, one lowercase, and one number!
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="authService.getUserRole() === 'ADMIN'">
+              <input type="checkbox" id="checkAdmin" formControlName="checkAdmin">
+              <label for="checkAdmin">New user is an admin</label>
+            </div>
+
+            <button (click)="createUser()" class="btn btn-success float-right" type="button">Sign up</button>
+            <div class="float-left" *ngIf="!authService.isLoggedIn()">
+              Already a user?
+              <a class="link-dark" *ngIf="!authService.isLoggedIn()" routerLink="/login">Login</a>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

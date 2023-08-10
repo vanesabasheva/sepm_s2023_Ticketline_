@@ -1,0 +1,81 @@
+<div class="text-container">
+  <div class="row justify-content-center align-items-center text-container">
+    <div class="col-10 text-center">
+      <p><span class="search-text"> S E A R C H </span></p>
+      <p><span class="performances-text"> performances </span></p>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-column align-items-center">
+  <div class="d-flex justify-content-center">
+    <form class="d-flex flex-row w-auto mb-3 align-content-lg-center">
+      <div class="flex-grow-2">
+        <label for="searchEventName" class="col-form-label">
+          Event
+        </label>
+        <input type="text" name="searchEventName"
+               class="form-control"
+               [(ngModel)]=searchEventName
+               (keyup.enter)="searchPerformances()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchHallName" class="col-form-label">
+          Hall
+        </label>
+        <input type="text" name="searchHallName"
+               class="form-control"
+               [(ngModel)]=searchHallName
+               (keyup.enter)="searchPerformances()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchDateTime" class="col-form-label">
+          Date & Time
+        </label>
+        <input type="datetime-local" name="date/time" class="form-control" id="date/time"
+               aria-describedby="titleHelp" placeholder="Enter Date and Time"
+               [(ngModel)]=searchDateTime
+        >
+      </div>
+      <div class="ms-1">
+        <label for="searchPrice" class="col-form-label">
+          Price
+        </label>
+        <input type="number" name="searchPrice"
+               class="form-control"
+               [(ngModel)]=searchPrice
+               (keyup.enter)="searchPerformances()"
+        >
+      </div>
+      <div class="ms-1 flex-grow-2 mb-2">
+        <label for="searchButton" class="col-form-label">
+          Search
+        </label>
+        <button type="button" class="btn btn-dark w-100" (click)="searchPerformances()">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="event-container">
+  <div class="event-card" *ngFor="let performance of performances" (click)="buyTickets(performance.id)">
+    <div class="row ">
+      <div class="col-1" style="height: 15rem; width: 15rem; object-fit: cover">
+        <img class="rounded float-left img-fluid img-thumbnail border h-75 w-100"
+             src="http://localhost:8080/images/{{ performance.imagePath }}"
+             alt="{{ performance.eventName }} image ">
+      </div>
+      <div class="col-6">
+        <div class="p-3 fw-bold fs-5">{{ performance.eventName }}</div>
+        <div class="fst-italic text-muted">
+          <div>Hall: {{ performance.hallName }}</div>
+          <div>Date: {{ formatDateTime(performance.dateTime) }}</div>
+          <div>Country: {{ performance.location.country }}</div>
+          <div>Address: {{ performance.location.street }}</div>
+          <div> {{ performance.location.city}} {{performance.location.postalCode}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="performances.length === 0 && searchPerformed" class="no-events">No performances found.</div>
+</div>

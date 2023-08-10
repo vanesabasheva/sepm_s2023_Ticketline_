@@ -1,0 +1,63 @@
+<br>
+<h1>Admin page</h1>
+<br>
+<button [routerLink]="['users', 'register']" class="btn btn-outline-success me-2" type="button"> Register new user
+</button>
+<button [routerLink]="['events', 'create']" class="btn btn-outline-success" type="button"> Create new Event</button>
+<div class="admin-user-list">
+  <br>
+  <div class="list-title">
+    <h3>List of users</h3>
+  </div>
+  <div class="list-switch">
+    <div class="checkbox-wrapper-3">
+      <input (change)="toggleLocked()" id="cbx-3" type="checkbox"/>
+      <label class="toggle" for="cbx-3"><span></span></label>
+    </div>
+    <div><h6><i class="bi-lock-fill"> Only show locked users</i></h6></div>
+  </div>
+  <div *ngIf="users && users.length === 0">
+    <br>
+    <h4>No users found</h4>
+  </div>
+  <div *ngIf="users && users.length !== 0">
+    <ul class="list-group">
+      <li *ngFor="let user of users" class="list-group-item">
+        <div class="list-items">
+          <div class="item-lock">
+            <i *ngIf="user.locked" class="bi bi-lock-fill"></i>
+            <i *ngIf="!user.locked" class="bi bi-unlock-fill"></i>
+          </div>
+          <div class="item-id">
+            <strong>ID: {{user.id}}</strong>
+          </div>
+          <div class="item-name">
+            <i *ngIf="user.admin" class="bi bi-check2-circle"> (Admin)</i>
+            {{user.firstName + ' ' + user.lastName}}
+          </div>
+          <div class="item-email">
+            <i>{{user.email}}</i>
+          </div>
+          <div class="item-button">
+            <button (click)="unlockUser(user.id)" *ngIf="user.locked && !user.admin" class="btn btn-warning"
+                    type="button">
+              <i class="bi-unlock-fill"></i> Unlock
+            </button>
+            <button (click)="lockUser(user.id)" *ngIf="!user.locked && !user.admin" class="btn btn-danger"
+                    type="button">
+              <i class="bi-lock-fill"></i> Lock
+            </button>
+            <button (click)="resetPassword(user.id)" *ngIf="!user.admin" class="btn btn-outline-secondary" id="reset"
+                    type="button">
+              <i class="bi-key-fill"></i> Reset
+            </button>
+            <button *ngIf="user.admin" class="btn btn-outline-success disabled" type="button">
+              <i class="bi-person-bounding-box"></i> Admin
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<br>

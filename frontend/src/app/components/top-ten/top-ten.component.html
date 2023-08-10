@@ -1,0 +1,20 @@
+<div *ngIf="topEvents.length === 0 && error === false && finishedLoading">
+  <h1>no tickets were sold in the last 30 days...</h1>
+</div>
+
+<div *ngIf="error === true">
+  <h2>There was an error loading the top ten events.</h2>
+  <h2>Please check your internet connection...</h2>
+</div>
+
+<div *ngIf="topEvents.length > 0">
+  <h1 class="text-center">Top 10 Events by Tickets Sold</h1>
+  <div class="container-fluid">
+    <div class="" *ngFor="let types of uniqueTypes">
+      <h2 class="ticketline-color text-white rounded p-1 ps-3">
+        Top Ten by {{ types }}
+      </h2>
+      <app-top-ten-list [topTenList]="eventsByType[types]"></app-top-ten-list>
+    </div>
+  </div>
+</div>

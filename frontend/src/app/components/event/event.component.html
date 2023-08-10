@@ -1,0 +1,199 @@
+<div class="card mt-4">
+  <h5 class="card-header">Create new event</h5>
+  <div class="card-body">
+    <form (ngSubmit)="submit()" [formGroup]="eventForm" class="card-body">
+      <div class="form-group">
+        <label for="eventName">Name</label>
+        <input class="form-control" formControlName="eventName" id="eventName" placeholder="Enter Name" type="text">
+        <div *ngIf="submitted && eventForm.controls.eventName.errors" class="error">
+          <small *ngIf="eventForm.controls.eventName.errors.required" class="form-text text-warning">
+            Name is required!
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <input class="form-control" formControlName="type" id="type" placeholder="Enter Type" type="text">
+        <div *ngIf="submitted && eventForm.controls.type.errors" class="error">
+          <small *ngIf="eventForm.controls.type.errors.required" class="form-text text-warning">
+            Type is required!
+          </small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="length">Length (in min)</label>
+        <input class="form-control" formControlName="length" id="length" min="0" placeholder="Enter Length"
+               type="number">
+        <div *ngIf="submitted && eventForm.controls.length.errors" class="error">
+          <small *ngIf="eventForm.controls.length.errors.required" class="form-text text-warning">
+            Length is required!
+          </small>
+        </div>
+      </div>
+      <div *ngIf="submitted && eventForm.controls.length.errors" class="error">
+        <small *ngIf="eventForm.controls.length.errors.pattern" class="form-text text-warning">
+          Length must be a positive number with 3 digits
+        </small>
+      </div>
+      <div class="form-group mb-4">
+        <label for="description">Description</label>
+        <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+        <div *ngIf="submitted && eventForm.controls.description.errors" class="error">
+          <small *ngIf="eventForm.controls.description.errors.required" class="form-text text-warning">
+            Description is required!
+          </small>
+        </div>
+      </div>
+      <div class="form-group mb-4">
+        <label class="form-label" for="formFile">Select Event image</label>
+        <input (change)="onFileSelected($event)" class="form-control file-upload "
+               formControlName="image" id="formFile" type="file">
+        <div *ngIf="submitted && eventForm.controls.image.errors" class="error">
+          <small *ngIf="eventForm.controls.image.errors.required" class="form-text text-warning">
+            Image is required!
+          </small>
+        </div>
+
+      </div>
+      <div *ngIf="selectedFile!==null" class="card mb-4">
+        <div class="card-header">Event Image</div>
+        <div class="card-body">
+          <img [src]="imagePreview" alt="Selected Image" height="300px"/>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">Performances</div>
+        <div class="card-body" formArrayName="performances">
+          <div *ngFor="let performance of getPerformances().controls ; let i = index"
+               [formGroupName]="i"
+               class="card mb-4">
+            <div class="card-header d-flex justify-content-between">
+              <p>Performance </p>
+              <button (click)="delPerformance(i)" *ngIf="i === performanceCounter "
+                      class="btn btn-danger" type="button">delete
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="hall">Hall</label>
+                <select (change)="loadSectors($event.target.value)"
+                        class="form-select" formControlName="hall" id="hall" placeholder="Enter Hall"
+                >
+                  <option selected>Select Hall</option>
+                  <option *ngFor="let hall of allHalls" [value]="hall.id">{{hall.name}}</option>
+                </select>
+                <div *ngIf="submitted && eventForm.get('performances.' + i + '.hall').errors" class="error">
+                  <small *ngIf="eventForm.get('performances.' + i + '.hall').errors.required"
+                         class="form-text text-warning">
+                    Hall is required!
+                  </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="date">Date</label>
+                <input class="form-control" formControlName="date" id="date" placeholder="Enter Date"
+                       type="datetime-local">
+                <div *ngIf="submitted && eventForm.get('performances.' + i + '.date').errors" class="error">
+                  <small *ngIf="eventForm.get('performances.' + i + '.date').errors.required"
+                         class="form-text text-warning">
+                    Date is required!
+                  </small>
+                </div>
+              </div>
+
+              <div *ngIf="getSectors(i).value.length > 0" class="form-group">
+
+                <label for="date">Prices</label>
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sector</th>
+                    <th scope="col">Price per Ticket</th>
+                    <th scope="col"></th>
+                  </tr>
+                  </thead>
+                  <tbody *ngFor="let sector of getSectors(i).controls ; let j = index"
+                         formArrayName="sectorPrices">
+                  <tr [formGroupName]="j">
+                    <th scope="row">{{ j }}</th>
+                    <td>{{ sector.value.name}}</td>
+                    <td>
+                      <input formControlName="price" id="price" placeholder="Enter Price"
+                             type="number">
+                    </td>
+                    <td>
+                      <div *ngIf="submitted && eventForm.get('performances.'+i+'.sectorPrices.'+j+'.price').errors"
+                           class="error">
+                        <small *ngIf="eventForm.get('performances.'+i+'.sectorPrices.'+j+'.price').errors.required"
+                               class="form-text text-warning">
+                          Price is required!
+                        </small>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+          <button (click)="incNumPerformances()" class="btn btn-primary" type="button">Add Performance</button>
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div class="card-header">Artists</div>
+        <div class="card-body" formArrayName="artists">
+          <div *ngFor="let artist of getArtist().controls ;let i = index" [formGroupName]="i">
+            <div class="d-flex">
+              <select aria-describedby="emailHelp" class="form-select flex-grow-1 mb-1" formControlName="artistName"
+                      id="artistName"
+                      placeholder="Select Artist">
+                <option selected>Select Artist</option>
+                <option *ngFor="let artist of allArtists">
+                  {{artist.name}}
+                </option>
+              </select>
+              <button (click)="delArtist(i)" *ngIf="i === artistCounter-1"
+                      class="btn btn-danger ml-2"
+                      type="button">delete
+              </button>
+            </div>
+            <div
+              *ngIf="submitted && eventForm.get('artists.'+i+'.artistName').errors"
+              class="error">
+              <small
+                *ngIf="eventForm.get('artists.'+i+'.artistName').errors.required"
+                class="form-text text-warning">
+                Please select artist
+              </small>
+            </div>
+          </div>
+          <div
+            *ngIf="submitted && eventForm.get('artists').errors"
+            class="error">
+            <small
+              *ngIf="eventForm.get('artists').errors.required"
+              class="form-text text-warning">
+              At least one artist is required
+            </small>
+          </div>
+          <button (click)="incNumArtists()" class="btn btn-primary" type="button">Add Artist</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="card-footer text-muted">
+    <button (click)="submit()" class="btn btn-primary" type="submit">Create</button>
+  </div>
+</div>
+
+
+
+
+

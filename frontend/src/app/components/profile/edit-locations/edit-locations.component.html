@@ -1,0 +1,49 @@
+<form #form="ngForm" class="form-group p-5">
+    <div>
+        <label for="postalCode">Postal Code:</label>
+        <input
+                type="number"
+                id="postalCode"
+                name="postalCode"
+                class="form-control"
+                [(ngModel)]="location.postalCode"
+                required
+        />
+    </div>
+    <div>
+        <label for="street">Street:</label>
+        <input
+                type="text"
+                id="street"
+                name="street"
+                class="form-control"
+                [(ngModel)]="location.street"
+                required
+        />
+    </div>
+    <div>
+        <label for="city">City:</label>
+        <input
+                type="text"
+                id="city"
+                name="city"
+                class="form-control"
+                [(ngModel)]="location.city"
+                required
+        />
+    </div>
+    <div>
+        <label for="country">Country:</label>
+        <input
+                type="text"
+                id="country"
+                name="country"
+                class="form-control"
+                [(ngModel)]="location.country"
+                required
+        />
+    </div>
+    <button class="my-3 btn btn-primary" type="submit" (click)="submitForm()">Submit</button>
+    <button type="button" class="btn btn-danger" style="margin-left: 53px" (click)="deleteLocation()"><i class="bi-trash"></i> Delete</button>
+</form>
+

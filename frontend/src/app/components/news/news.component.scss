@@ -1,0 +1,49 @@
+.card-header {
+  background-color: #ce5a57;
+  color: #fff;
+}
+
+.modal-header .btn-close {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+.carousel-item {
+  height: 25vh;
+}
+
+.carousel-image-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-image-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-picture-size {
+  height: 25vh;
+}
+
+.modal-pciture-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-pciture-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* mat-form-field in front of modal */
+::ng-deep .cdk-overlay-container {
+  z-index: 9999;
+}

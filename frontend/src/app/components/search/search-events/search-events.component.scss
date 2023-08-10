@@ -1,0 +1,55 @@
+.text-container {
+  margin-top: 5%;
+}
+
+.search-text {
+  font-family: 'Lohit Tamil', ui-rounded;
+  font-size: 64px;
+  color: #4F4F4F;
+}
+
+.event-text {
+  font-family: 'Lohit Tamil', ui-rounded;
+  font-size: 34px;
+  color: #4F4F4F;
+}
+
+.event-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.event-card {
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 500px;
+  max-width: 1200px;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card:hover {
+  background-color: lightgray;
+}
+
+.no-events {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+}
+

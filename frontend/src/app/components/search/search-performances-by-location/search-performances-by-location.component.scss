@@ -1,0 +1,32 @@
+.text-container {
+  margin-top: 5%;
+}
+
+.search-text {
+  font-family: 'Lohit Tamil', ui-rounded;
+  font-size: 64px;
+  color: #4F4F4F;
+}
+
+.by-location {
+  font-family: 'Lohit Tamil', ui-rounded;
+  font-size: 34px;
+  color: #4F4F4F;
+}
+
+.table-header {
+  padding: 60px;
+}
+
+.performance-card {
+  cursor: pointer;
+}
+
+.no-locations {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+}

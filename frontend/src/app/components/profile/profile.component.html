@@ -1,0 +1,121 @@
+<div>
+  <h1>Personal Profile</h1>
+</div>
+
+
+<div class="container">
+  <div class="row align-items-center">
+    <div class="col-lg-4">
+        <img src="http://localhost:8080/images/profile.jpg" alt="Profile Picture" width="250" height="250">
+    </div>
+    <div class="col-lg-5">
+      <form>
+        <div class="mb-3">
+          <label class="form-label" for="firstName">First Name</label>
+          <input type="text" id="firstName" class="form-control" value="{{user.firstName}}" disabled>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="lastName">Last Name</label>
+          <input type="text" id="lastName" class="form-control" value="{{user.lastName}}" disabled>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="email">Email</label>
+          <input type="email" id="email" class="form-control" value="{{user.email}}" disabled>
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="points">Points</label>
+          <input type="number" id="points" class="form-control" value="{{user.points}}" disabled>
+        </div>
+      </form>
+    </div>
+
+<div class="col-lg-3">
+    <div class="buttons">
+        <button type="button" class="btn btn-light" routerLink="/order-history"><i class="bi-clock-history"></i> Order History</button>
+        <button type="button" class="btn btn-light" routerLink="/reservations"><i class="bi-calendar-check"></i> Reservations</button>
+        <button type="button" class="btn btn-light" routerLink="/edit-profile"><i class="bi-pencil" routerLink="/edit-profile"></i> Edit Profile</button>
+        <button type="button" class="btn btn-secondary" routerLink="/edit-password"><i class="bi-key" routerLink="/edit-profile"></i> Edit Password</button>
+        <button *ngIf="!user.admin" type="button" class="btn btn-danger" (click)="deleteUserDialogDecision()"><i class="bi-trash"></i> Delete Profile</button>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+
+<div class="payment-address-container">
+    <div class="payment-details">
+        <div class="title">
+            <h3>Your Payment Details</h3>
+
+        </div>
+        <div *ngIf="paymentDetails.length===0">
+            <h5 style="padding-left: 3px">You have no payment details</h5>
+        </div>
+        <div *ngFor="let payment of paymentDetails; let i = index" class="payment-info">
+
+            <div class="edit-button">
+                <h4>Payment Detail {{ i + 1 }}</h4>
+                <div *ngIf="i%2===0; else elseBlock">
+                <button type="button" class="btn btn-light" (click)="editPaymentDetail(payment)"><i class="bi-pencil"></i> Edit</button>
+                </div>
+                <ng-template #elseBlock>  <button type="button" class="btn btn-secondary" (click)="editPaymentDetail(payment)"><i class="bi-pencil"></i> Edit</button> </ng-template>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Card Holder:</span>
+                <span class="info-value">{{ payment.cardHolder }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Card Number:</span>
+                <span class="info-value">•••• - •••• - •••• - {{ payment.lastFourDigits }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Expiration Date:</span>
+                <span class="info-value">{{ dateToLocaleDate(payment.expirationDate) }}</span>
+            </div>
+        </div>
+        <button  class="btn btn-success m-auto my-3"
+                 style="width: 10rem"
+        (click)="addPaymentDetail()"><i class="bi-plus-lg"></i> Add new</button>
+    </div>
+
+    <div class="location-details">
+        <div class="title">
+            <h3>Your Delivery Addresses</h3>
+        </div>
+        <div *ngIf="locations.length===0">
+            <h5 style="padding-left: 3px">You have no Delivery Addresses</h5>
+        </div>
+        <div *ngFor="let location of locations; let i = index" class="location-info">
+            <div class="edit-button">
+                <h4>Address {{ i + 1 }}</h4>
+                <div *ngIf="i%2===0; else elseBlock">
+                    <button type="button" class="btn btn-light" (click)="editLocation(location)"><i class="bi-pencil"></i> Edit</button>
+                </div>
+                <ng-template #elseBlock>  <button type="button" class="btn btn-secondary" (click)="editLocation(location)"><i class="bi-pencil"></i> Edit</button> </ng-template>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Street:</span>
+                <span class="info-value">{{ location.street }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">City / Postal Code:</span>
+                <span class="info-value">{{ location.city }} / {{ location.postalCode }} </span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Country:</span>
+                <span class="info-value">{{ location.country }}</span>
+            </div>
+
+        </div>
+        <button  class="btn btn-success m-auto my-3"
+                 style="width: 10rem"
+                 (click)="addDeliveryLocation()"><i class="bi-plus-lg"></i> Add new</button>
+    </div>
+</div>
+
+
+
+
+

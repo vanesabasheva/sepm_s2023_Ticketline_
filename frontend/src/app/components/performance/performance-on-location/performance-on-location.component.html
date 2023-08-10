@@ -1,0 +1,17 @@
+<div *ngIf="performances.length !== 0">
+  <div class="location-card">
+    <img alt="Card image cap"
+         class="card-img-top"
+         src="https://cdn11.bigcommerce.com/s-qc7qegnorm/images/stencil/1080w/products/4736/10505/its_a_big_world_jigmap_banner__57191.1646235602.jpg?c=1"
+    >
+    <p><span class="location-title"> {{formatLocation(performances[0])}} </span></p>
+  </div>
+  <div class="performance-container">
+    <div *ngFor="let performance of performances" class="performance-item">
+      <h3>{{ performance.eventName }}</h3>
+      <p>Hall: {{ performance.hallName }}</p>
+      <p>Date & Time: {{ formatDateTime(performance) }}</p>
+      <mat-button-toggle class="buy-tickets-button" (click)="buyTickets(performance.id)">Buy Tickets</mat-button-toggle>
+    </div>
+  </div>
+</div>

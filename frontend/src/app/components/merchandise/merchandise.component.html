@@ -1,0 +1,44 @@
+<br>
+<h1>Merchandise</h1>
+<div class="merch-header">
+  <div class="checkbox-wrapper-3">
+    <input (change)="getMerchCheck()" [(ngModel)]="isChecked" id="cbx-3" type="checkbox"/>
+    <label class="toggle" for="cbx-3"><span></span></label>
+  </div>
+  <div>
+    <h6>Show redeemable with <b><i class="bi bi-stop-circle-fill"></i> Points</b></h6>
+  </div>
+</div>
+<div class="d-grid gap-4">
+
+  <div class="p-2">
+    <div class="container">
+      <div class="row">
+        <div *ngFor="let merch of merchandiseList" class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card mb-3">
+            <img alt="Card image cap"
+                 class="card-img-top"
+                 src="{{'http://localhost:8080/images/' + merch.imagePath}}">
+            <!-- old img: https://cdn.shopify.com/s/files/1/2117/2713/products/LIP355A_METEORACOVERSPRAYNAVYTEE_grande_cropped.png?v=1679350057 -->
+            <div class="card-body">
+              <h5 class="card-title">{{merch.title}}</h5>
+              <p class="card-text">{{merch.description}}</p>
+              <p class="card-text">{{isChecked ? merch.pointsPrice + "   " : merch.price + "€"}}<i *ngIf="isChecked"
+                                                                                                   class="bi bi-stop-circle-fill">
+                Points</i></p>
+              <div class="container-fluid">
+                <div class="row">
+                  <!-- If the item is in the card, show the quantity as placeholder -->
+                  <input [(ngModel)]="tempQuantity[merch.id]" class="col-md-6 me-3" max="5" min="0"
+                         placeholder="{{ getPlaceholder(merch.id)}}" type="number">
+                  <a (click)="addMerchToCart(merch.id,tempQuantity[merch.id])"
+                     class="btn btn-primary  btn-sm col-md-4">Add</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

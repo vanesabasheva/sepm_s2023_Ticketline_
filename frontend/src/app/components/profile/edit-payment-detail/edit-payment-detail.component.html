@@ -1,0 +1,48 @@
+<form #form="ngForm" class="form-group p-5">
+    <div>
+        <label for="cardHolder">Card Holder:</label>
+        <input
+                type="text"
+                id="cardHolder"
+                name="cardHolder"
+                class="form-control"
+                [(ngModel)]="cardHolderValue"
+                required
+        />
+    </div>
+    <div>
+        <label for="cardNumber">Card Number:</label>
+        <input
+                type="text"
+                id="cardNumber"
+                name="cardNumber"
+                class="form-control"
+                [(ngModel)]="cardNumberValue"
+                required
+        />
+    </div>
+    <div>
+        <label for="cvv">CVV:</label>
+        <input
+                type="number"
+                id="cvv"
+                name="cvv"
+                class="form-control"
+                [(ngModel)]="cvvValue"
+                required
+        />
+    </div>
+    <div>
+        <label for="expirationDate">Expiration Date:</label>
+        <input
+                type="date"
+                id="expirationDate"
+                name="expirationDate"
+                class="form-control"
+                [(ngModel)]="expirationDateValue"
+                required
+        />
+    </div>
+    <button class="my-3 btn btn-primary" type="submit" (click)="submitForm()">Submit</button>
+    <button type="button" class="btn btn-danger" style="margin-left: 53px" (click)="deletePaymentDetail()"><i class="bi-trash"></i> Delete</button>
+</form>

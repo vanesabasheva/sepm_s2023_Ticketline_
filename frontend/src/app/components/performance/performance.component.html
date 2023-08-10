@@ -1,0 +1,74 @@
+<div *ngIf="performance; else loading">
+  <h1 class="my-5">{{ performance.eventName }}</h1>
+  <h2>{{ performance.hallName }}</h2>
+  <h2>{{ performance.dateTime | date : 'dd.MM.yyyy HH:mm' }}</h2>
+  <h3 class="mt-5">Tickets</h3>
+
+  <div class="d-flex justify-content-around">
+    <div>
+      <div id="grid-container" [ngStyle]="generateGridStyles()">
+        <div *ngFor="let row of performance.tickets">
+          <div
+            *ngFor="let ticket of row"
+            class="spot"
+            [ngClass]="getTicketClasses(ticket)"
+            (click)="toggleTicket(ticket)"
+            (mouseenter)="hoverTicket(ticket)"
+            (mouseleave)="hoverSectorId = null"
+          ></div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-start my-4">
+        <div class="legend spot seat mx-2"></div>
+        = Free,
+        <div class="legend spot seat reserved mx-2"></div>
+        = Reserved,
+        <div class="legend spot seat selected mx-2"></div>
+        = Selected
+      </div>
+    </div>
+    <div id="selected-container" *ngIf="!hasPerformancePassed()">
+      <h4>Selected Tickets:</h4>
+      <div class="d-flex justify-content-between mb-3">
+        <span class="py-2">Total: {{ totalTicketPrice() }}€</span>
+        <div *ngIf="selectedTickets.length > 0">
+          <button class="btn btn-success mx-1" (click)="addTicketsToCart()">
+            Add to cart
+          </button>
+          <button class="btn btn-secondary" (click)="clearSelectedTickets()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <ul>
+        <li *ngFor="let ticket of selectedTickets">
+          <span *ngIf="isTicketStanding(ticket); else seat">
+            Ticket Standing Sector
+            {{ getSectorName(ticket) }}: {{ getPrice(ticket) }}€
+            <button
+              class="btn btn-primary btn-sm"
+              [ngClass]="{ disabled: !canAddStandingTicket(ticket.sectorId) }"
+              (click)="addStandingTicket(ticket.sectorId)"
+            >
+              Add another
+            </button>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="removeTicketFromSelected(ticket)"
+            >
+              Remove
+            </button>
+          </span>
+          <ng-template #seat>
+            Row {{ ticket.row }} - Seat {{ ticket.number }}, Sector
+            {{ getSectorName(ticket) }}: {{ getPrice(ticket) }}€
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <h2 class="my-3">loading...</h2>
+</ng-template>

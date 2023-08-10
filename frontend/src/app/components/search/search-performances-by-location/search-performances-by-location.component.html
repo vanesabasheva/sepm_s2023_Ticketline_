@@ -1,0 +1,85 @@
+<div class="text-container">
+  <div class="row justify-content-center align-items-center text-container">
+    <div class="col-10 text-center">
+      <p><span class="search-text"> S E A R C H </span></p>
+      <p><span class="by-location"> by location</span></p>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-column align-items-center">
+  <div class="d-flex justify-content-center">
+    <form class="d-flex flex-row w-auto mb-3 align-content-lg-center">
+      <div class="flex-grow-2">
+        <label for="searchCountry" class="col-form-label">
+          Country
+        </label>
+        <input type="text" name="searchCountry"
+               class="form-control"
+               [(ngModel)]=searchCountry
+               (keyup.enter)="searchLocations()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchCity" class="col-form-label">
+          City
+        </label>
+        <input type="text" name="searchCity"
+               class="form-control"
+               [(ngModel)]=searchCity
+               (keyup.enter)="searchLocations()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchStreet" class="col-form-label">
+          Street
+        </label>
+        <input name="searchStreet"
+               class="form-control"
+               type="text"
+               [(ngModel)]=searchStreet
+               (keyup.enter)="searchLocations()"
+        >
+      </div>
+      <div class="ms-1">
+        <label for="searchPostalCode" class="col-form-label">
+          Postal Code
+        </label>
+        <input type="number" name="searchPostalCode"
+               pattern="[0-9]{4}"
+               class="form-control"
+               title="Please enter a four-digit number"
+               [(ngModel)]=searchPostalCode
+               (keyup.enter)="searchLocations()"
+        >
+      </div>
+      <div class="ms-1 flex-grow-2 mb-2">
+        <label for="searchButton" class="col-form-label">
+          Search
+        </label>
+        <button type="button" class="btn btn-dark w-100" (click)="searchLocations()">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="d-flex flex-row w-auto" *ngIf="locations.length !== 0">
+    <div class="performance-card">
+      <table class="table table-hover">
+        <thead>
+        <th class="table-header">Country</th>
+        <th class="table-header">City</th>
+        <th class="table-header">Street</th>
+        <th class="table-header">Postal Code</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let location of locations" class="center-td" (click)="redirectToPerformances(location.id)">
+          <td class="table-header">{{location.country}}</td>
+          <td class="table-header">{{location.city}}</td>
+          <td class="table-header">{{location.street}}</td>
+          <td class="table-header">{{location.postalCode}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="locations.length === 0 && search" class="no-locations">No locations match your search.</div>
+</div>

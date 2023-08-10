@@ -1,0 +1,63 @@
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top:10px
+}
+
+.buttons button {
+  margin-top: 10px;
+
+}
+
+.edit-button{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment-address-container {
+  display: flex;
+}
+
+.payment-details,
+.location-details {
+  flex: 1;
+  padding: 10px;
+}
+
+.payment-info,
+.location-info {
+  padding: 20px;
+  position: relative;
+
+}
+
+.payment-info:nth-child(even),
+.location-info:nth-child(even) {
+  background-color: lightgray;
+}
+
+.payment-info h4,
+.location-info h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  width: 150px;
+  font-weight: bold;
+}
+
+.info-value {
+  flex-grow: 1;
+}
+.title{
+   padding-top: 50px;
+ }

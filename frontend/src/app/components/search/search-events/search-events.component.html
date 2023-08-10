@@ -1,0 +1,88 @@
+<div class="text-container">
+  <div class="row justify-content-center align-items-center text-container">
+    <div class="col-10 text-center">
+      <p><span class="search-text"> S E A R C H </span></p>
+      <p><span class="event-text"> events </span></p>
+    </div>
+  </div>
+</div>
+<div class="d-flex flex-column align-items-center">
+  <div class="d-flex justify-content-center">
+    <form class="d-flex flex-row w-auto mb-3 align-content-lg-center">
+      <div class="flex-grow-2">
+        <label for="searchName" class="col-form-label">
+          Name
+        </label>
+        <input type="text" name="searchCountry"
+               class="form-control"
+               [(ngModel)]=searchName
+               (keyup.enter)="searchEvents()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchDescription" class="col-form-label">
+          Description
+        </label>
+        <input type="text" name="searchCity"
+               class="form-control"
+               [(ngModel)]=searchDescription
+               (keyup.enter)="searchEvents()"
+        >
+      </div>
+      <div class="flex-grow-2 ms-1">
+        <label for="searchType" class="col-form-label">
+          Type
+        </label>
+        <input name="searchStreet"
+               class="form-control"
+               type="text"
+               [(ngModel)]=searchType
+               (keyup.enter)="searchEvents()"
+        >
+      </div>
+      <div class="ms-1">
+        <label for="searchLength" class="col-form-label">
+          Duration
+        </label>
+        <select name="searchLength"
+                class="form-select"
+                [(ngModel)]=searchLength
+                (keyup.enter)="searchEvents()"
+        >
+          <option value="">All Durations</option>
+          <option value="PT1H">60 min</option>
+          <option value="PT2H">120 min</option>
+          <option value="PT3H">180 min</option>
+          <option value="PT4H">240 min</option>
+        </select>
+      </div>
+      <div class="ms-1 flex-grow-2 mb-2">
+        <label for="searchButton" class="col-form-label">
+          Search
+        </label>
+        <button type="button" class="btn btn-dark w-100" (click)="searchEvents()">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="event-container">
+  <div class="event-card" *ngFor="let event of events" (click)="redirectToEvent(event.id)">
+    <div class="row ">
+      <div class="col-1" style="height: 15rem; width: 15rem; object-fit: cover">
+        <img class="rounded float-left img-fluid img-thumbnail border h-75 w-100"
+             src="http://localhost:8080/images/{{ event.imagePath }}"
+             alt="{{ event.name }} image ">
+      </div>
+      <div class="col-6">
+        <div class="p-3 fw-bold fs-5">{{ event.name }}</div>
+        <div class="fst-italic text-muted">
+          <div>Type: {{ event.type }}</div>
+          <div>Duration: {{ formatLength(event) }}</div>
+          <div>Description: {{ event.description }}</div>
+          <div> {{ event.artists }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="events.length === 0 && searchPerformed" class="no-events">No events found.</div>
+</div>

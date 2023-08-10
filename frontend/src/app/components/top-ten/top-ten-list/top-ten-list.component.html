@@ -1,0 +1,30 @@
+<div>
+  <div class="d-flex flex-wrap">
+    <div class="p-2" *ngFor="let event of topTenList">
+      <a
+        class="link-dark text-decoration-none event"
+        routerLink="/events/{{ event.id }}/"
+      >
+        <div class="circle d-flex justify-content-center align-items-center">
+          {{ event.ticketCount }}
+        </div>
+        <div class="card" style="margin-left: 5rem">
+          <img
+            src="http://localhost:8080/images/{{
+              event.imagePath.length !== 0 ? event.imagePath : 'cat.png'
+            }}"
+            class="card-img-top rounded"
+            alt=" {{ event.imagePath }}"
+            style="height: 8rem; width: 9rem; object-fit: cover"
+          />
+          <p class="card-body card-text text-center">{{ event.name }}</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <highcharts-chart
+    [Highcharts]="highcharts"
+    [options]="chartOptions"
+    style="width: 100%; height: 400px; display: block"
+  ></highcharts-chart>
+</div>
